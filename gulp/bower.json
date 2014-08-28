@@ -1,0 +1,28 @@
+{
+  "name": "project libraries",
+  "version": "0.0.0",
+  "authors": [
+    "takumi <takumi@sonicjam.co.jp>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "1",
+    "gsap": "~1.13.1"
+  },
+  "overrides": {
+    "jquery": {
+      "main": [ "dist/jquery.min.js" ]
+    },
+    "gsap": {
+      "main": [ "src/minified/TweenMax.min.js" ]
+    }
+  }
+}

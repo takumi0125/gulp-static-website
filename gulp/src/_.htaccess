@@ -1,0 +1,49 @@
+# Basic 認証例外設定
+
+Order Deny,Allow
+Deny from all
+
+
+# SONICJAM Tokyo 社内のアクセスを許可
+Allow from 113.32.139.64/28
+Allow from 172.16.1
+
+
+# Facebook クローラーのアクセスを許可
+# https://developers.facebook.com/docs/ApplicationSecurity/#facebook_scraper
+
+Allow from 31.13.24.0/21
+Allow from 31.13.64.0/18
+Allow from 66.220.144.0/20
+Allow from 69.63.176.0/20
+Allow from 69.171.224.0/19
+Allow from 74.119.76.0/22
+Allow from 103.4.96.0/22
+Allow from 173.252.64.0/18
+Allow from 204.15.20.0/22
+Allow from 2401:db00::/32
+Allow from 2620:0:1c00::/40
+Allow from 2a03:2880::/32
+
+
+# Twitter クローラーのアクセスを許可
+# https://dev.twitter.com/discussions/18099
+# https://dev.twitter.com/discussions/20198
+
+Allow from 199.16.156.124
+Allow from 199.16.156.125
+Allow from 199.16.156.126
+Allow from 199.59.148.209
+Allow from 199.59.148.210
+Allow from 199.59.148.211
+Allow from 199.59.149.21
+Allow from 199.59.149.45
+
+
+# Google+ クローラーのアクセスを許可
+# https://code.google.com/p/google-plus-platform/issues/detail?id=178
+
+Allow from 66.249.80.100
+
+
+Satisfy Any

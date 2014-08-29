@@ -12,9 +12,6 @@ git clone git://github.com/takumi0125/gulp-template-static-website.git ~/.gulp-t
 
 spritesmithを使用するにはgraphicsmagickをインストール
 
-```
-brew install graphicsmagick
-```
 
 プロジェクト開始時
 ------------------

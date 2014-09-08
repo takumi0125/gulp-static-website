@@ -46,6 +46,7 @@ paths =
 
   excludeSrcs: [
     SRC_DIR + '**/*'
+    SRC_DIR + '.htaccess'
     '!' + SRC_DIR + '**/_*/*'
     '!' + SRC_DIR + '**/_*/'
     '!' + SRC_DIR + '**/*sprites/*'

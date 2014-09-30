@@ -111,11 +111,12 @@ gulp.task 'stylus', ->
 
 # spriteIndex
 gulp.task 'spriteIndex', ->
-  spriteData = gulp.src paths.sprite.index
+  spriteData = gulp.src SRC_DIR + paths.sprite.index
   .pipe plumber errorHandler: errorHandler 'spriteIndex'
   .pipe sprite(
     imgName: 'index_sprites.png'
     cssName: '_index_sprites.scss'
+    algorithm: 'binary-tree'
     padding: 1
     imgPath: '../' + paths.sprite.index
   )
@@ -128,11 +129,12 @@ gulp.task 'spriteIndex', ->
 
 # spriteCommon
 gulp.task 'spriteCommon', ->
-  spriteData = gulp.src paths.sprite.common
+  spriteData = gulp.src SRC_DIR + paths.sprite.common
   .pipe plumber errorHandler: errorHandler 'spriteCommon'
   .pipe sprite(
     imgName: 'common_sprites.png'
     cssName: '_common_sprites.scss'
+    algorithm: 'binary-tree'
     padding: 1
     imgPath: '../' + paths.sprite.common
   )
@@ -190,7 +192,8 @@ gulp.task 'jade', ->
   gulp.src paths.jade
   .pipe data -> require SRC_DIR + 'data.json'
   .pipe plumber errorHandler: errorHandler 'jade'
-  .pipe jade()
+  .pipe jade
+    pretty: true
   .pipe gulp.dest PUBLISH_DIR
 
 

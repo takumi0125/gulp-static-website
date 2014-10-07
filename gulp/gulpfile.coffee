@@ -118,7 +118,7 @@ gulp.task 'spriteIndex', ->
     cssName: '_index_sprites.scss'
     algorithm: 'binary-tree'
     padding: 1
-    imgPath: '../' + paths.sprite.index
+    imgPath: '../img/index_sprites.png'
   )
   
   spriteData.img
@@ -136,7 +136,7 @@ gulp.task 'spriteCommon', ->
     cssName: '_common_sprites.scss'
     algorithm: 'binary-tree'
     padding: 1
-    imgPath: '../' + paths.sprite.common
+    imgPath: '../common/img/common_sprites.png'
   )
   
   spriteData.img

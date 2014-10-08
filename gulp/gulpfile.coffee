@@ -100,6 +100,7 @@ gulp.task 'sass', ->
   .pipe sass
     unixNewlines: true
     compass: true
+    style: 'expanded'
   .pipe gulp.dest PUBLISH_DIR
 
 # stylus

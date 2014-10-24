@@ -44,7 +44,5 @@ Session.vim
 
 node_modules
 bower_components
-npm-debug.log
-
-.intermediate
 .sass-cache
+npm-debug.log

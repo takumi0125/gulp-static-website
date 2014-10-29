@@ -1,1 +1,2 @@
-images_dir = "src"
+images_dir = 'src'
+sourcemap = 'none'

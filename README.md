@@ -8,7 +8,7 @@ gulp-static-website
 mkdir yourProject/
 cd yourProject
 git clone git@github.com:takumi0125/gulp-static-website.git
-cd grunt
+cd gulp
 npm install
 ```
 <a href="http://sass-lang.com/" target="_blank">Sass/SCSS</a>, <a href="http://compass-style.org/" target="_blank">Compass</a>がインストールされていない場合はインストールしてください。
@@ -34,7 +34,7 @@ http://localhost:50000/
 ```
 gulp
 ```
-`gulp/src/` の中身を各種タスクで処理し `htdocs/` に展開します。`grunt init` は実行されません。
+`gulp/src/` の中身を各種タスクで処理し `htdocs/` に展開します。`gulp init` は実行されません。
 
 ```
 gulp init
@@ -60,17 +60,17 @@ gulp css
 Sass/SCSS (+Compass) のコンパイルを実行し <a href="https://github.com/sindresorhus/gulp-autoprefixer" target="_blank">gulp-autoprefixer</a> を実行後、 `htdocs/` 以下に展開されます。また、拡張子が .css のファイルは gulp-autoprefixer を実行後、 `htdocs/` 以下にコピーされます。
 
 ```
-grunt js
+gulp js
 ```
 CoffeeScript コンパイル後に `htdocs/` 以下に展開します。また、拡張子が .js のファイルは <a href="https://github.com/spenceralger/gulp-jshint" target="_blank">gulp-jshint</a> 実行後に `htdocs/` 以下にコピーされます。
 
 ```
-grunt json
+gulp json
 ```
 <a href="https://github.com/rogeriopvl/gulp-jsonlint" target="_blank">gulp-jsonlint</a> 実行後、 `htdocs/` 以下にコピーされます。
 
 ```
-grunt img
+gulp img
 ```
 <a href="https://github.com/twolfson/gulp.spritesmith" target="_blank">gulp-spritesmith</a> を使用してスプライト画像を生成します。生成されたスプライト画像と SCSS ファイルが `src/` 以下に展開されます。
 

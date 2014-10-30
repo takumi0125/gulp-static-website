@@ -1,19 +1,19 @@
-gulp        = require 'gulp'
-bower       = require 'main-bower-files'
-clean       = require 'gulp-clean'
-coffee      = require 'gulp-coffee'
-coffeelint  = require 'gulp-coffeelint'
-compass     = require 'gulp-compass'
-data        = require 'gulp-data'
-filter      = require 'gulp-filter'
-notify      = require 'gulp-notify'
-jade        = require 'gulp-jade'
-jsonlint    = require 'gulp-jsonlint'
-jshint      = require 'gulp-jshint'
-plumber     = require 'gulp-plumber'
-sass        = require 'gulp-ruby-sass'
-sprite      = require 'gulp.spritesmith'
-webserver   = require 'gulp-webserver'
+gulp         = require 'gulp'
+bower        = require 'main-bower-files'
+clean        = require 'gulp-clean'
+coffee       = require 'gulp-coffee'
+compass      = require 'gulp-compass'
+data         = require 'gulp-data'
+filter       = require 'gulp-filter'
+notify       = require 'gulp-notify'
+jade         = require 'gulp-jade'
+jsonlint     = require 'gulp-jsonlint'
+jshint       = require 'gulp-jshint'
+plumber      = require 'gulp-plumber'
+autoprefixer = require 'gulp-autoprefixer'
+sass         = require 'gulp-ruby-sass'
+sprite       = require 'gulp.spritesmith'
+webserver    = require 'gulp-webserver'
 
 exec        = require('child_process').exec
 runSequence = require 'run-sequence'
@@ -55,7 +55,7 @@ paths =
   ]
 
 
-defaultFirstTask = [ 'clean' ]
+imgTask = [ 'copyImg' ]
 
 createCopyFilesFilter = ()-> filter [ '**', '!**/_*', "!**/_*/", '!**/_*/**' ]
 
@@ -80,7 +80,7 @@ createSrcArr = (name) -> [].concat paths[name], "!#{SRC_DIR}/_*", "!#{SRC_DIR}/*
 # かつ watch タスクの監視も追加
 #
 createSpritesTask = (taskName, dirBase, outputFileName = 'sprites', outputImgPathType = 'absolute', imgDir = '/img', cssDir = '/css') ->
-  defaultFirstTask.push taskName
+  imgTask.push taskName
   
   srcImgFiles = "#{SRC_DIR}#{dirBase}#{imgDir}/_#{outputFileName}/*"
   gulp.task taskName, ->
@@ -131,6 +131,7 @@ gulp.task 'copyHtml', ->
 gulp.task 'copyCss', ->
   gulp.src createSrcArr 'css'
   .pipe plumber errorHandler: errorHandler 'copyCss'
+  .pipe autoprefixer()
   .pipe gulp.dest PUBLISH_DIR
 
 # copyJs
@@ -158,6 +159,22 @@ gulp.task 'copyOthers', ->
   .pipe gulp.dest PUBLISH_DIR
 
 
+############
+### html ###
+############
+
+# jade
+gulp.task 'jade', ->
+  gulp.src createSrcArr 'jade'
+  .pipe data -> require DATA_JSON
+  .pipe plumber errorHandler: errorHandler 'jade'
+  .pipe jade pretty: true
+  .pipe gulp.dest PUBLISH_DIR
+
+# html
+gulp.task 'html', [ 'copyHtml', 'jade' ]
+
+
 ###########
 ### css ###
 ###########
@@ -171,11 +188,12 @@ gulp.task 'sass', ->
     compass: true
     sourcemap: false
     style: 'expanded'
+  .pipe autoprefixer()
   .pipe gulp.dest PUBLISH_DIR
 
-# spriteIndex
-createSpritesTask 'spritesCommon', '/common'
-createSpritesTask 'spritesIndex', ''
+
+# css
+gulp.task 'css', [ 'copyCss', 'sass' ]
 
 
 ##########
@@ -184,17 +202,22 @@ createSpritesTask 'spritesIndex', ''
 
 # jshint
 gulp.task 'jshint', ->
+  libFilter = filter [ '**', '!**/lib/**' ]
   gulp.src createSrcArr 'js'
-  .pipe plumber errorHander: errorHandler 'jshint'
+  .pipe libFilter
   .pipe jshint()
+  .pipe jshint.reporter()
+  .pipe notify (file)-> return if file.jshint.success then false else 'jshint error'
 
 # coffee
 gulp.task 'coffee', ->
   gulp.src createSrcArr 'coffee'
-  .pipe plumber errorHandler: errorHandler 'coffee'
-  .pipe coffeelint()
+  .pipe plumber errorHandler: errorHandler 'coffeelint'
   .pipe coffee()
   .pipe gulp.dest PUBLISH_DIR
+
+# js
+gulp.task 'js', [ 'copyJs', 'coffee' ]
 
 
 ############
@@ -204,35 +227,37 @@ gulp.task 'coffee', ->
 # jsonlint
 gulp.task 'jsonlint', ->
   gulp.src createSrcArr 'json'
-  .pipe plumber errorHandler: errorHandler 'jsonlint'
   .pipe jsonlint()
+  .pipe jsonlint.reporter()
+  .pipe notify (file)-> return if file.jsonlint.success then false else 'jsonlint error'
+
+# json
+gulp.task 'json', [ 'copyJson' ]
 
 
-############
-### html ###
-############
+###########
+### img ###
+###########
 
-# jade
-gulp.task 'jade', ->
-  gulp.src createSrcArr 'jade'
-  .pipe data -> require DATA_JSON
-  .pipe plumber errorHandler: errorHandler 'jade'
-  .pipe jade pretty: true
-  .pipe gulp.dest PUBLISH_DIR
+# sprite
+createSpritesTask 'spritesCommon', '/common'
+createSpritesTask 'spritesIndex', ''
+
+gulp.task 'img', imgTask
 
 
-#############
-### watch ###
-#############
+###############
+### watcher ###
+###############
 
-# watch
-gulp.task 'watch', ->
+# watcher
+gulp.task 'watcher', ->
   gulp.watch paths.html, [ 'copyHtml' ]
   gulp.watch paths.jade, [ 'jade' ]
   gulp.watch paths.css, [ 'copyCss' ]
   gulp.watch paths.sass, [ 'sass' ]
-  gulp.watch paths.js, [ 'jshint' ]
-  gulp.watch paths.json, [ 'jsonlint' ]
+  gulp.watch paths.js, [ 'copyJs' ]
+  gulp.watch paths.json, [ 'copyJson' ]
   gulp.watch paths.coffee, [ 'coffee' ]
   gulp.watch paths.img, [ 'copyImg' ]
   gulp.watch paths.others, [ 'copyOthers' ]
@@ -286,7 +311,7 @@ gulp.task 'init', [ 'bower' ]
 ### default ###
 ###############
 
-gulp.task 'default', defaultFirstTask, ->
-  runSequence [ 'copyHtml', 'copyCss', 'copyJs', 'copyJson', 'copyImg', 'copyOthers' ], [ 'jade', 'sass', 'coffee' ], ->
+gulp.task 'default', [ 'clean' ], ->
+  runSequence [ 'json', 'img' ], [ 'html', 'css', 'js', 'copyOthers' ], ->
     gulp.src(PUBLISH_DIR).pipe notify 'build complete'
 

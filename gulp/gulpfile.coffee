@@ -39,6 +39,7 @@ paths =
   img: "#{SRC_DIR}/**/img/**"
   others: [
     "#{SRC_DIR}/**"
+    "#{SRC_DIR}/**/.htaccess"
     "!#{SRC_DIR}/**/*.html"
     "!#{SRC_DIR}/**/*.jade"
     "!#{SRC_DIR}/**/*.css"

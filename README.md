@@ -117,7 +117,7 @@ createSpritesTask
     "underscore": "~1.7.0",
     "swfobject": "*"
   },
-  "exportsOverride": {
+  "overrides": {
     "jquery": {
       "main": [
         "dist/jquery.min.js"
@@ -143,4 +143,4 @@ createSpritesTask
 
 ```
 
-テンプレートでは、 exportsOverride を指定して minify されたファイルがインストールされるようになっています。ライブラリが不要であれば devDependencies から削除してください。
+テンプレートでは、 overrides を指定して minify されたファイルがインストールされるようになっています。ライブラリが不要であれば devDependencies から削除してください。

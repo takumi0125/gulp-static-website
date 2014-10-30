@@ -20,7 +20,7 @@
     "underscore": "~1.7.0",
     "swfobject": "*"
   },
-  "exportsOverride": {
+  "overrides": {
     "jquery": {
       "main": [
         "dist/jquery.min.js"

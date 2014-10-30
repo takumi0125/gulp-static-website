@@ -5,7 +5,7 @@ gulp-static-website
 
 ## インストール
 ```bash
-mkdir yourProject/
+mkdir yourProject
 cd yourProject
 git clone git@github.com:takumi0125/gulp-static-website.git .
 cd gulp

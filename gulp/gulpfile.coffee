@@ -1,8 +1,8 @@
 gulp         = require 'gulp'
 bower        = require 'main-bower-files'
 clean        = require 'gulp-clean'
+concat       = require 'gulp-concat'
 coffee       = require 'gulp-coffee'
-compass      = require 'gulp-compass'
 data         = require 'gulp-data'
 filter       = require 'gulp-filter'
 notify       = require 'gulp-notify'
@@ -117,6 +117,18 @@ gulp.task 'clean', ->
   .pipe clean force: true
 
 
+##############
+### concat ###
+##############
+
+# concat
+gulp.task 'concat', ->
+  gulp.src "#{SRC_DIR}/__test"
+  .pipe plumber errorHandler: errorHandler 'concat'
+  .pipe concat 'build.js'
+  .pipe gulp.dest "#{PUBLISH_DIR}/js"
+
+
 ############
 ### copy ###
 ############
@@ -166,8 +178,8 @@ gulp.task 'copyOthers', ->
 # jade
 gulp.task 'jade', ->
   gulp.src createSrcArr 'jade'
-  .pipe data -> require DATA_JSON
   .pipe plumber errorHandler: errorHandler 'jade'
+  .pipe data -> require DATA_JSON
   .pipe jade pretty: true
   .pipe gulp.dest PUBLISH_DIR
 
@@ -204,6 +216,7 @@ gulp.task 'css', [ 'copyCss', 'sass' ]
 gulp.task 'jshint', ->
   libFilter = filter [ '**', '!**/lib/**' ]
   gulp.src createSrcArr 'js'
+  .pipe plumber errorHandler: errorHandler 'jshint'
   .pipe libFilter
   .pipe jshint()
   .pipe jshint.reporter()
@@ -227,6 +240,7 @@ gulp.task 'js', [ 'copyJs', 'coffee' ]
 # jsonlint
 gulp.task 'jsonlint', ->
   gulp.src createSrcArr 'json'
+  .pipe plumber errorHandler: errorHandler 'jsonlint'
   .pipe jsonlint()
   .pipe jsonlint.reporter()
   .pipe notify (file)-> return if file.jsonlint.success then false else 'jsonlint error'

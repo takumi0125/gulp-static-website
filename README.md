@@ -74,6 +74,8 @@ gulp img
 ```
 <a href="https://github.com/twolfson/gulp.spritesmith" target="_blank">gulp-spritesmith</a> を使用してスプライト画像を生成します。生成されたスプライト画像と SCSS ファイルが `src/` 以下に展開されます。
 
+また、 <a href="https://github.com/wearefractal/gulp-concat" target="_blank">gulp-concat</a> を使用する場合は適宜タスクを追加してください。
+
 
 その他個別タスクは `gulpfile.coffee` をご参照ください。
 
@@ -84,7 +86,7 @@ gulp img
 ```
 createSpritesTask
 ```
-を使用してください。使用方法は `gulpfile.coffee` の66行目以降に記載されています。呼び出す場合は conf, task が定義された後に呼び出します。サンプルでは246行目で呼び出しています。
+を使用してください。使用方法は `gulpfile.coffee` の66行目以降に記載されています。呼び出す場合は conf, task が定義された後に呼び出します。サンプルでは260行目で呼び出しています。
 
 
 

@@ -4,6 +4,12 @@ gulp-static-website
 静的サイト制作用の汎用gulpタスクテンプレートです。
 
 ## インストール
+
+```bash
+npm install -g bower gulp
+```
+gulp, bower がインストールされていなければインストール。
+
 ```bash
 mkdir yourProject
 cd yourProject

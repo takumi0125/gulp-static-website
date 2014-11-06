@@ -25,13 +25,6 @@ npm install
 <a href="https://github.com/takumi0125/static-website-basic-src" target="_blank">takumi0125/static-website-basic-src</a>  
 を `src` 以下でサブモジュールとして使用しています。
 
-```bash
-git submodule update --init
-```
-
-で上記サブモジュールの初期化を行っています。
-
-
 `gulp` コマンドで `gulp/src/` の中身がタスクで処理され、ディレクトリ構造を保ちつつ `htdocs/` に展開されます。ただし、「 _ (アンダースコア) 」で始まるファイルやディレクトリはコンパイル・コピーの対象外です。スプライト用のソース画像を格納するディレクトリや、Sassで@importするファイルは「 _ (アンダースコア) 」をつけておけば、 `htdocs/` に展開されることはありません。
 
 `gulp watcher` コマンドでローカルサーバが立ち上がります。実行中は

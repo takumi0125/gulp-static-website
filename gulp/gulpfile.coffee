@@ -57,6 +57,7 @@ paths =
 
 
 imgTask = [ 'copyImg' ]
+watchSpritesTasks = []
 
 createCopyFilesFilter = ()-> filter [ '**', '!**/_*', "!**/_*/", '!**/_*/**' ]
 
@@ -104,7 +105,7 @@ createSpritesTask = (taskName, dirBase, outputFileName = 'sprites', outputImgPat
     
     spriteData.css.pipe gulp.dest "#{SRC_DIR}#{dirBase}#{cssDir}"
 
-  gulp.watch srcImgFiles, [ taskName ]
+  watchSpritesTasks.push => gulp.watch srcImgFiles, [ taskName ]
 
 
 #############
@@ -276,6 +277,8 @@ gulp.task 'watcher', ->
   gulp.watch paths.coffee, [ 'coffee' ]
   gulp.watch paths.img, [ 'copyImg' ]
   gulp.watch paths.others, [ 'copyOthers' ]
+  
+  for task in  watchSpritesTasks then task()
 
   gulp.src PUBLISH_DIR
   .pipe webserver
